@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Forms</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: aliceblue;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; 
+            width: 100%;
+            margin: 0;
+            color: black; 
+        }
+
+        form {
+            background-color: cadetblue;
+            padding: 20px 50px 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: none; 
+        }
+
+        form.active {
+            display: block; 
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: black;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type='email'],
+        select,
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus,
+        input[type='email']:focus,
+        select:focus,
+        textarea:focus {
+            border-color: red;
+            outline: none;
+        }
+
+        input[type="submit"] {
+            border: none;
+            font-weight: bold;
+            border-radius: 4px;
+            padding: 10px;
+            cursor: pointer;
+            width: 50%;
+        }
+
+        input[type="submit"]:hover {
+            background-color: gray;
+        }
+
+        .options {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #submittedData {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: white;
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            display: none;
+        }
+    </style>
+    <script>
+        let registrationData = {};
+        let surveyData = {};
+
+        function handleSubmit(event) {
+            event.preventDefault(); 
+            registrationData = {
+                firstname: document.querySelector("#fname").value,
+                lastname: document.querySelector("#lname").value,
+                email: document.querySelector("#email").value,
+                mobilenumber: document.querySelector("#mobile").value,
+                cnic: document.querySelector("#cnic").value,
+                country: document.querySelector("#country").value,
+                password: document.querySelector("#psw").value,
+                gender: document.querySelector('input[name="gender"]:checked').value,
+                movies: Array.from(document.querySelectorAll('input[name="movie"]:checked')).map(el => el.value)
+            };
+
+            alert('Complete this survey please!'); 
+            document.querySelector("#registrationForm").classList.remove("active"); 
+            document.querySelector("#surveyForm").classList.add("active"); 
+            document.querySelector("#registrationForm").reset(); 
+        }
+
+        function handleFeedbackSubmit(event) {
+            event.preventDefault(); 
+            surveyData = {
+                valueFeedback: document.querySelector('input[name="valueFeedback"]:checked').value,
+                communicationEffectiveness: document.querySelector('input[name="communicationEffectiveness"]:checked').value,
+                comfortableReachingOut: document.querySelector('input[name="comfortableReachingOut"]:checked').value,
+                involvementInDecisionMaking: document.querySelector('input[name="involvementInDecisionMaking"]:checked').value,
+                appropriateActions: document.querySelector('input[name="appropriateActions"]:checked').value,
+                resourcesMeetNeeds: document.querySelector('input[name="resourcesMeetNeeds"]:checked').value,
+                awareOfChannels: document.querySelector('input[name="awareOfChannels"]:checked').value,
+                responsiveToNeeds: document.querySelector('input[name="responsiveToNeeds"]:checked').value,
+                timelyCommunication: document.querySelector('input[name="timelyCommunication"]:checked').value,
+                overallSatisfaction: document.querySelector('input[name="overallSatisfaction"]:checked').value
+            };
+
+            displaySubmittedData();
+            document.querySelector("#surveyForm").reset();
+        }
+
+        function displaySubmittedData() {
+            const dataDisplay = document.getElementById("submittedData");
+            dataDisplay.innerHTML = `
+                <h3>Submitted Data</h3>
+                <h4>Registration Data:</h4>
+                <p><strong>First Name:</strong> ${registrationData.firstname}</p>
+                <p><strong>Last Name:</strong> ${registrationData.lastname}</p>
+                <p><strong>Email:</strong> ${registrationData.email}</p>
+                <p><strong>Mobile Number:</strong> ${registrationData.mobilenumber}</p>
+                <p><strong>CNIC:</strong> ${registrationData.cnic}</p>
+                <p><strong>Country:</strong> ${registrationData.country}</p>
+                <p><strong>Password:</strong> ${registrationData.password}</p>
+                <p><strong>Gender:</strong> ${registrationData.gender}</p>
+                <p><strong>Favorite Movies:</strong> ${registrationData.movies.join(', ')}</p>
+                
+                <h4>Survey Data:</h4>
+                <p><strong>Value Feedback:</strong> ${surveyData.valueFeedback}</p>
+                <p><strong>Communication Effectiveness:</strong> ${surveyData.communicationEffectiveness}</p>
+                <p><strong>Comfortable Reaching Out:</strong> ${surveyData.comfortableReachingOut}</p>
+                <p><strong>Involvement in Decision Making:</strong> ${surveyData.involvementInDecisionMaking}</p>
+                <p><strong>Appropriate Actions:</strong> ${surveyData.appropriateActions}</p>
+                <p><strong>Resources Meet Needs:</strong> ${surveyData.resourcesMeetNeeds}</p>
+                <p><strong>Aware of Channels:</strong> ${surveyData.awareOfChannels}</p>
+                <p><strong>Responsive to Needs:</strong> ${surveyData.responsiveToNeeds}</p>
+                <p><strong>Timely Communication:</strong> ${surveyData.timelyCommunication}</p>
+                <p><strong>Overall Satisfaction:</strong> ${surveyData.overallSatisfaction}</p>
+            `;
+            dataDisplay.style.display = 'block';
+        }
+    </script>
+</head>
+
+<body>
+
+    <form id="registrationForm" onsubmit="handleSubmit(event)" class="active">
+        <h3>Registration Form</h3>
+        <label for="fname">First Name</label>
+        <input type="text" id="fname" name="firstname" placeholder="Enter your first name" required>
+
+        <label for="lname">Last Name</label>
+        <input type="text" id="lname" name="lastname" placeholder="Enter your last name" required>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="example@gmail.com" required>
+
+        <label for="mobile">Mobile Number</label>
+        <input type="text" id="mobile" name="mobilenumber" placeholder="03948923892" required maxlength="11" pattern="[0-9]{11}" title="Please enter a valid 11-digit mobile number." oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+
+        <label for="cnic">CNIC</label>
+        <input type="text" id="cnic" name="cnic" placeholder="1234512345671" required maxlength="13" pattern="[0-9]{13}" title="Please enter a valid 13-digit CNIC." oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+
+        <label for="country">Country</label>
+        <select id="country" name="country" required>
+            <option value="">~~Choose~~</option>
+            <option value="Pakistan">Pakistan</option>
+            <option value="India">India</option>
+            <option value="Norway">Norway</option>
+            <option value="Switzerland">Switzerland</option>
+        </select>
+
+        <label for="psw">Password</label>
+        <input type="password" id="psw" placeholder="Minimum 6 characters" name="psw" pattern=".{6,}" title="Must be at least 6 characters long" required>
+
+        <h4>Choose your gender:</h4>
+        <label for="male">Male
+            <input type="radio" id="male" name="gender" value="Male" required>
+        </label>
+        <label for="female">Female
+            <input type="radio" id="female" name="gender" value="Female" required>
+        </label>
+
+        <h4>Enter your favorite movies:</h4>
+        <label><input type="checkbox" id="movie1" name="movie" value="Movie1"> Subject 1</label><br>
+        <label><input type="checkbox" id="movie2" name="movie" value="Movie2"> Subject 2</label><br>
+        <label><input type="checkbox" id="movie3" name="movie" value="Movie3"> Subject 3</label><br>
+
+        <input type="submit" value="Submit">
+    </form>
+
+    <form id="surveyForm" onsubmit="handleFeedbackSubmit(event)">
+        <h3>Survey Form</h3>
+        <h4>University Administration Cooperation Survey</h4>
+        <p>Please rate the following statements from 1 (Strongly Disagree) to 5 (Strongly Agree):</p>
+
+        <label>I believe that the university administration values student feedback.</label>
+        <div class="options">
+            <label><input type="radio" name="valueFeedback" value="1" required> 1</label>
+            <label><input type="radio" name="valueFeedback" value="2"> 2</label>
+            <label><input type="radio" name="valueFeedback" value="3"> 3</label>
+            <label><input type="radio" name="valueFeedback" value="4"> 4</label>
+            <label><input type="radio" name="valueFeedback" value="5"> 5</label>
+        </div>
+
+        <label>Communication between the university administration and students is effective.</label>
+        <div class="options">
+            <label><input type="radio" name="communicationEffectiveness" value="1" required> 1</label>
+            <label><input type="radio" name="communicationEffectiveness" value="2"> 2</label>
+            <label><input type="radio" name="communicationEffectiveness" value="3"> 3</label>
+            <label><input type="radio" name="communicationEffectiveness" value="4"> 4</label>
+            <label><input type="radio" name="communicationEffectiveness" value="5"> 5</label>
+        </div>
+
+        <label>I feel comfortable reaching out to the administration with my concerns.</label>
+        <div class="options">
+            <label><input type="radio" name="comfortableReachingOut" value="1" required> 1</label>
+            <label><input type="radio" name="comfortableReachingOut" value="2"> 2</label>
+            <label><input type="radio" name="comfortableReachingOut" value="3"> 3</label>
+            <label><input type="radio" name="comfortableReachingOut" value="4"> 4</label>
+            <label><input type="radio" name="comfortableReachingOut" value="5"> 5</label>
+        </div>
+
+        <label>The administration actively involves students in decision-making processes.</label>
+        <div class="options">
+            <label><input type="radio" name="involvementInDecisionMaking" value="1" required> 1</label>
+            <label><input type="radio" name="involvementInDecisionMaking" value="2"> 2</label>
+            <label><input type="radio" name="involvementInDecisionMaking" value="3"> 3</label>
+            <label><input type="radio" name="involvementInDecisionMaking" value="4"> 4</label>
+            <label><input type="radio" name="involvementInDecisionMaking" value="5"> 5</label>
+        </div>
+
+        <label>I believe that the university takes appropriate actions based on student input.</label>
+        <div class="options">
+            <label><input type="radio" name="appropriateActions" value="1" required> 1</label>
+            <label><input type="radio" name="appropriateActions" value="2"> 2</label>
+            <label><input type="radio" name="appropriateActions" value="3"> 3</label>
+            <label><input type="radio" name="appropriateActions" value="4"> 4</label>
+            <label><input type="radio" name="appropriateActions" value="5"> 5</label>
+        </div>
+
+        <label>The resources provided by the administration meet the needs of the student body.</label>
+        <div class="options">
+            <label><input type="radio" name="resourcesMeetNeeds" value="1" required> 1</label>
+            <label><input type="radio" name="resourcesMeetNeeds" value="2"> 2</label>
+            <label><input type="radio" name="resourcesMeetNeeds" value="3"> 3</label>
+            <label><input type="radio" name="resourcesMeetNeeds" value="4"> 4</label>
+            <label><input type="radio" name="resourcesMeetNeeds" value="5"> 5</label>
+        </div>
+
+        <label>I am aware of the channels available to voice my opinions to the administration.</label>
+        <div class="options">
+            <label><input type="radio" name="awareOfChannels" value="1" required> 1</label>
+            <label><input type="radio" name="awareOfChannels" value="2"> 2</label>
+            <label><input type="radio" name="awareOfChannels" value="3"> 3</label>
+            <label><input type="radio" name="awareOfChannels" value="4"> 4</label>
+            <label><input type="radio" name="awareOfChannels" value="5"> 5</label>
+        </div>
+
+        <label>I feel that the administration is responsive to student needs.</label>
+        <div class="options">
+            <label><input type="radio" name="responsiveToNeeds" value="1" required> 1</label>
+            <label><input type="radio" name="responsiveToNeeds" value="2"> 2</label>
+            <label><input type="radio" name="responsiveToNeeds" value="3"> 3</label>
+            <label><input type="radio" name="responsiveToNeeds" value="4"> 4</label>
+            <label><input type="radio" name="responsiveToNeeds" value="5"> 5</label>
+        </div>
+
+        <label>The administration communicates important information to students in a timely manner.</label>
+        <div class="options">
+            <label><input type="radio" name="timelyCommunication" value="1" required> 1</label>
+            <label><input type="radio" name="timelyCommunication" value="2"> 2</label>
+            <label><input type="radio" name="timelyCommunication" value="3"> 3</label>
+            <label><input type="radio" name="timelyCommunication" value="4"> 4</label>
+            <label><input type="radio" name="timelyCommunication" value="5"> 5</label>
+        </div>
+
+        <label>Overall, I am satisfied with the cooperation between students and university administration.</label>
+        <div class="options">
+            <label><input type="radio" name="overallSatisfaction" value="1" required> 1</label>
+            <label><input type="radio" name="overallSatisfaction" value="2"> 2</label>
+            <label><input type="radio" name="overallSatisfaction" value="3"> 3</label>
+            <label><input type="radio" name="overallSatisfaction" value="4"> 4</label>
+            <label><input type="radio" name="overallSatisfaction" value="5"> 5</label>
+        </div>
+
+        <input type="submit" value="Submit Feedback">
+    </form>
+
+    <div id="submittedData"></div>
+</body>
+
+</html>
